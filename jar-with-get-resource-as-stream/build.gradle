@@ -18,3 +18,23 @@ dependencies {
 	compile 'com.fasterxml.jackson.core:jackson-databind:2.7.6'
 	testCompile 'junit:junit:4.12'
 }
+
+task copyJar(type: Copy) {
+	from jar
+	into '../rails-app-with-jar-with-get-resource-as-stream/lib/java/dependencies'
+}
+
+task copyDependencies(type: Copy) {
+	into '../rails-app-with-jar-with-get-resource-as-stream/lib/java/dependencies'
+	from configurations.runtime
+}
+
+task cleanJars(type: Delete) {
+	delete fileTree('../rails-app-with-jar-with-get-resource-as-stream/lib/java/dependencies') {
+		include '*.jar'
+	}
+}
+
+build.finalizedBy(copyJar, copyDependencies)
+
+clean.finalizedBy(cleanJars)
