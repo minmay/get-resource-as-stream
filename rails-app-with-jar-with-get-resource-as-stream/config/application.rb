@@ -22,5 +22,10 @@ module RailsAppWithJarWithGetResourceAsStream
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    Dir["lib/java/dependencies/*.jar"].each do |jar|
+      puts "Loading jar #{jar}"
+      require File.expand_path("../../#{jar}", __FILE__)
+    end
   end
 end
